@@ -1,19 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { useSupabaseTransactions } from '@/hooks/useSupabaseTransactions';
+import { useTransactions } from '@/hooks/useTransactions';
 import { exportToCSV, downloadCSV } from '@/utils/transactions';
 import Navigation from '@/components/Navigation';
 import Dashboard from '@/components/Dashboard';
 import TransactionList from '@/components/TransactionList';
 import TransactionForm from '@/components/TransactionForm';
-import AuthForm from '@/components/AuthForm';
 import { Transaction } from '@/types';
 import { format } from 'date-fns';
 
 export default function Home() {
-  const { user, loading: authLoading, signOut } = useAuth();
   const {
     transactions,
     categories,
@@ -22,13 +19,13 @@ export default function Home() {
     updateTransaction,
     deleteTransaction,
     clearAllData
-  } = useSupabaseTransactions();
+  } = useTransactions();
 
   const [activeTab, setActiveTab] = useState<'dashboard' | 'transactions'>('dashboard');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
-  const handleAddTransaction = (transactionData: Omit<Transaction, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => {
+  const handleAddTransaction = (transactionData: Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>) => {
     if (editingTransaction) {
       updateTransaction(editingTransaction.id, transactionData);
       setEditingTransaction(null);
@@ -96,22 +93,6 @@ export default function Home() {
     };
     input.click();
   };
-
-  // Show auth form if user is not authenticated
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return <AuthForm />;
-  }
 
   if (loading) {
     return (
