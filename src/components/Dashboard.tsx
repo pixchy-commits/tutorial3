@@ -12,6 +12,23 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ transactions, categories }: DashboardProps) {
+  // Thai translations for category names
+  const categoryNameMapTH: Record<string, string> = {
+    'Food & Dining': 'อาหารและการรับประทาน',
+    'Transportation': 'การเดินทาง',
+    'Shopping': 'ช้อปปิ้ง',
+    'Entertainment': 'บันเทิง',
+    'Bills & Utilities': 'บิลและค่าสาธารณูปโภค',
+    'Healthcare': 'สุขภาพ',
+    'Education': 'การศึกษา',
+    'Travel': 'ท่องเที่ยว',
+    'Salary': 'เงินเดือน',
+    'Business': 'ธุรกิจ',
+    'Investments': 'การลงทุน',
+    'Freelance': 'ฟรีแลนซ์',
+    'Rental': 'ค่าเช่า',
+    'Other': 'อื่นๆ',
+  };
   const analytics = useMemo(() => calculateAnalytics(transactions), [transactions]);
 
   const COLORS = ['#ef4444', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#6366f1', '#14b8a6'];
@@ -96,14 +113,20 @@ export default function Dashboard({ transactions, categories }: DashboardProps) 
     return (
       <div className="text-center py-12">
         <BarChart3 size={64} className="mx-auto text-gray-300 mb-4" />
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">แดชบอร์ดการเงิน</h1>
         <h3 className="text-lg font-medium text-gray-900 mb-2">ยังไม่มีข้อมูล</h3>
-        <p className="text-gray-500">เพิ่มธุรกรรมเพื่อดูแดชบอร์ดการวิเคราะห์ของคุณ</p>
+        <p className="text-gray-500">เพิ่มธุรกรรมเพื่อดูสรุปและวิเคราะห์ข้อมูลของคุณ</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
+      {/* Dashboard Title and Subtitle */}
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">แดชบอร์ดการเงิน</h1>
+        <p className="text-gray-600 mb-6">สรุปและวิเคราะห์รายรับรายจ่ายของคุณ</p>
+      </div>
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
@@ -248,12 +271,13 @@ export default function Dashboard({ transactions, categories }: DashboardProps) 
               {analytics.topExpenseCategories.slice(0, 5).map((category, index) => {
                 const categoryInfo = categories.find(cat => cat.name === category.name);
                 const percentage = (category.value / analytics.totalExpenses) * 100;
-                
+                // Translate category name if possible
+                const categoryNameTH = categoryNameMapTH[category.name] || category.name;
                 return (
                   <div key={category.name} className="flex items-center justify-between">
                     <div className="flex items-center">
                       <span className="text-lg mr-2">{categoryInfo?.icon || '📝'}</span>
-                      <span className="font-medium">{category.name}</span>
+                      <span className="font-medium">{categoryNameTH}</span>
                     </div>
                     <div className="text-right">
                       <div className="font-semibold text-red-600">
@@ -278,12 +302,13 @@ export default function Dashboard({ transactions, categories }: DashboardProps) 
               {analytics.topRevenueCategories.slice(0, 5).map((category, index) => {
                 const categoryInfo = categories.find(cat => cat.name === category.name);
                 const percentage = (category.value / analytics.totalRevenue) * 100;
-                
+                // Translate category name if possible
+                const categoryNameTH = categoryNameMapTH[category.name] || category.name;
                 return (
                   <div key={category.name} className="flex items-center justify-between">
                     <div className="flex items-center">
                       <span className="text-lg mr-2">{categoryInfo?.icon || '📝'}</span>
-                      <span className="font-medium">{category.name}</span>
+                      <span className="font-medium">{categoryNameTH}</span>
                     </div>
                     <div className="text-right">
                       <div className="font-semibold text-green-600">
