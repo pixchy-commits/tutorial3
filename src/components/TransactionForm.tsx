@@ -281,7 +281,7 @@ export default function TransactionForm({
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               <Tag size={16} className="inline mr-1" />
-              Tags
+              แท็ก
             </label>
             <div className="flex space-x-2 mb-2">
               <input
@@ -289,7 +289,7 @@ export default function TransactionForm({
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)}
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Add tag"
+                placeholder="เพิ่มแท็ก"
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
               />
               <button
@@ -322,14 +322,14 @@ export default function TransactionForm({
           {/* Notes */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Notes
+              หมายเหตุ
             </label>
             <textarea
               value={formData.notes}
               onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows={3}
-              placeholder="Additional notes"
+              placeholder="หมายเหตุเพิ่มเติม"
             />
           </div>
 
