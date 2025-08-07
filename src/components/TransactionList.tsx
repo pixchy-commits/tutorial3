@@ -82,7 +82,7 @@ export default function TransactionList({
       {/* Header with filters */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <h2 className="text-lg font-semibold text-gray-900">Transactions</h2>
+          <h2 className="text-lg font-semibold text-gray-900">ธุรกรรม</h2>
           
           <div className="flex flex-wrap gap-2">
             <button
@@ -90,7 +90,7 @@ export default function TransactionList({
               className="flex items-center px-3 py-2 text-sm bg-green-500 text-white rounded-md hover:bg-green-600"
             >
               <Download size={16} className="mr-1" />
-              Export CSV
+              ส่งออก CSV
             </button>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default function TransactionList({
             <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Search transactions..."
+              placeholder="ค้นหาธุรกรรม..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -115,9 +115,9 @@ export default function TransactionList({
             onChange={(e) => setFilterType(e.target.value as 'all' | 'expense' | 'revenue')}
             className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="all">All Types</option>
-            <option value="expense">Expenses</option>
-            <option value="revenue">Revenue</option>
+            <option value="all">ทุกประเภท</option>
+            <option value="expense">รายจ่าย</option>
+            <option value="revenue">รายรับ</option>
           </select>
 
           {/* Category Filter */}
@@ -126,7 +126,7 @@ export default function TransactionList({
             onChange={(e) => setFilterCategory(e.target.value)}
             className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">All Categories</option>
+            <option value="">ทุกหมวดหมู่</option>
             {categories
               .filter(cat => filterType === 'all' || cat.type === filterType)
               .map(category => (
@@ -143,8 +143,8 @@ export default function TransactionList({
         {filteredTransactions.length === 0 ? (
           <div className="p-8 text-center text-gray-500">
             <Filter size={48} className="mx-auto mb-4 text-gray-300" />
-            <p>No transactions found matching your criteria.</p>
-            <p className="text-sm mt-1">Try adjusting your search or filters.</p>
+            <p>ไม่พบธุรกรรมที่ตรงกับเงื่อนไขที่คุณกำหนด</p>
+            <p className="text-sm mt-1">ลองปรับการค้นหาหรือตัวกรองของคุณ</p>
           </div>
         ) : (
           <table className="w-full">
@@ -156,21 +156,21 @@ export default function TransactionList({
                 >
                   <div className="flex items-center">
                     <Calendar size={14} className="mr-1" />
-                    Date
+                    วันที่
                     {sortBy === 'date' && (
                       <span className="ml-1">{sortOrder === 'asc' ? '↑' : '↓'}</span>
                     )}
                   </div>
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Type
+                  ประเภท
                 </th>
                 <th 
                   className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
                   onClick={() => handleSort('amount')}
                 >
                   <div className="flex items-center">
-                    Amount
+                    จำนวนเงิน
                     {sortBy === 'amount' && (
                       <span className="ml-1">{sortOrder === 'asc' ? '↑' : '↓'}</span>
                     )}
@@ -181,17 +181,17 @@ export default function TransactionList({
                   onClick={() => handleSort('description')}
                 >
                   <div className="flex items-center">
-                    Description
+                    รายละเอียด
                     {sortBy === 'description' && (
                       <span className="ml-1">{sortOrder === 'asc' ? '↑' : '↓'}</span>
                     )}
                   </div>
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Category
+                  หมวดหมู่
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
+                  การกระทำ
                 </th>
               </tr>
             </thead>
@@ -209,7 +209,7 @@ export default function TransactionList({
                           : 'bg-green-100 text-green-800'
                       }`}
                     >
-                      {transaction.type === 'expense' ? '🔽' : '🔼'} {transaction.type}
+                      {transaction.type === 'expense' ? '🔽' : '🔼'} {transaction.type === 'expense' ? 'รายจ่าย' : 'รายรับ'}
                     </span>
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap">
@@ -261,18 +261,18 @@ export default function TransactionList({
                       <button
                         onClick={() => onEdit(transaction)}
                         className="text-blue-600 hover:text-blue-800"
-                        title="Edit transaction"
+                        title="แก้ไขธุรกรรม"
                       >
                         <Edit size={16} />
                       </button>
                       <button
                         onClick={() => {
-                          if (window.confirm('Are you sure you want to delete this transaction?')) {
+                          if (window.confirm('คุณแน่ใจว่าต้องการลบธุรกรรมนี้?')) {
                             onDelete(transaction.id);
                           }
                         }}
                         className="text-red-600 hover:text-red-800"
-                        title="Delete transaction"
+                        title="ลบธุรกรรม"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -289,17 +289,17 @@ export default function TransactionList({
       {filteredTransactions.length > 0 && (
         <div className="p-4 border-t border-gray-200 bg-gray-50">
           <div className="flex justify-between text-sm">
-            <span>Showing {filteredTransactions.length} transactions</span>
+            <span>แสดง {filteredTransactions.length} ธุรกรรม</span>
             <div className="space-x-4">
               <span className="text-red-600">
-                Expenses: {formatCurrency(
+                รายจ่าย: {formatCurrency(
                   filteredTransactions
                     .filter(t => t.type === 'expense')
                     .reduce((sum, t) => sum + t.amount, 0)
                 )}
               </span>
               <span className="text-green-600">
-                Revenue: {formatCurrency(
+                รายรับ: {formatCurrency(
                   filteredTransactions
                     .filter(t => t.type === 'revenue')
                     .reduce((sum, t) => sum + t.amount, 0)

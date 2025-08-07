@@ -340,14 +340,14 @@ export default function TransactionForm({
               onClick={onClose}
               className="px-4 py-2 text-gray-600 hover:text-gray-800"
             >
-              Cancel
+              ยกเลิก
             </button>
             <button
               type="submit"
               className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             >
               <Save size={16} className="mr-2" />
-              {editingTransaction ? 'Update' : 'Add'} Transaction
+              {editingTransaction ? 'อัพเดต' : 'เพิ่ม'}ธุรกรรม
             </button>
           </div>
         </form>
