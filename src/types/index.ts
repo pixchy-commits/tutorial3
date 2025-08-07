@@ -47,7 +47,7 @@ export interface UserProfile {
   avatar_url?: string;
   currency?: string;
   timezone?: string;
-  preferences?: any;
+  preferences?: Record<string, unknown>;
   created_at?: string;
   updated_at?: string;
 }

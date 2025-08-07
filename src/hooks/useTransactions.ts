@@ -47,12 +47,13 @@ export const useTransactions = () => {
     }
   }, [categories, loading]);
 
-  const addTransaction = (transactionData: Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const addTransaction = (transactionData: Omit<Transaction, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => {
     const newTransaction: Transaction = {
       ...transactionData,
       id: uuidv4(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      user_id: 'local-user',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
 
     setTransactions(prev => [newTransaction, ...prev]);
@@ -93,7 +94,7 @@ export const useTransactions = () => {
 
   const deleteCategory = (id: string) => {
     // Don't allow deleting if there are transactions using this category
-    const hasTransactions = transactions.some(t => t.category === categories.find(c => c.id === id)?.name);
+    const hasTransactions = transactions.some(t => t.category_name === categories.find(c => c.id === id)?.name);
     if (hasTransactions) {
       throw new Error('Cannot delete category that has transactions. Please reassign transactions first.');
     }
@@ -112,8 +113,9 @@ export const useTransactions = () => {
     const transactionsWithIds = importedTransactions.map(t => ({
       ...t,
       id: t.id || uuidv4(),
-      createdAt: t.createdAt || new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      user_id: t.user_id || 'local-user',
+      created_at: t.created_at || new Date().toISOString(),
+      updated_at: new Date().toISOString()
     }));
 
     setTransactions(prev => [...transactionsWithIds, ...prev]);

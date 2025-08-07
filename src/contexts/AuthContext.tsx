@@ -81,7 +81,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     })
 
     return () => subscription.unsubscribe()
-  }, [supabase.auth])
+  }, []) // supabase.auth is stable and doesn't need to be in dependency array
 
   const signOut = async () => {
     await supabase.auth.signOut()
