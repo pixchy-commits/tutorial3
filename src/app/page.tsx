@@ -13,7 +13,7 @@ import { Transaction } from '@/types';
 import { format } from 'date-fns';
 
 export default function Home() {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const {
     transactions,
     categories,
@@ -64,7 +64,7 @@ export default function Home() {
               const importedData = JSON.parse(content);
               if (Array.isArray(importedData)) {
                 // Import as array of transactions
-                const validTransactions = importedData.filter(item => 
+                const validTransactions = importedData.filter((item: Record<string, unknown>) => 
                   item.type && item.amount && item.description && item.category && item.date
                 );
                 alert(`Importing ${validTransactions.length} transactions`);
@@ -77,7 +77,7 @@ export default function Home() {
               const headers = lines[0].split(',');
               const transactions = lines.slice(1).map(line => {
                 const values = line.split(',');
-                const obj: any = {};
+                const obj: Record<string, string> = {};
                 headers.forEach((header, index) => {
                   obj[header.trim()] = values[index]?.replace(/"/g, '').trim();
                 });
@@ -87,7 +87,7 @@ export default function Home() {
               alert(`Found ${transactions.length} transactions in CSV`);
               // Note: You would need to transform and import these
             }
-          } catch (error) {
+          } catch (err) {
             alert('Error importing file. Please check the format.');
           }
         };
@@ -137,18 +137,18 @@ export default function Home() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'dashboard' ? (
-          <div>
+            <div>
             <div className="mb-8">
-              <h1 className="text-2xl font-bold text-gray-900">Financial Dashboard</h1>
-              <p className="text-gray-600">Track your expenses and revenue with detailed analytics</p>
+              <h1 className="text-2xl font-bold text-gray-900">แดชบอร์ดการเงิน</h1>
+              <p className="text-gray-600">ติดตามรายจ่ายและรายรับของคุณด้วยการวิเคราะห์อย่างละเอียด</p>
             </div>
             <Dashboard transactions={transactions} categories={categories} />
-          </div>
-        ) : (
-          <div>
+            </div>
+          ) : (
+            <div>
             <div className="mb-8">
-              <h1 className="text-2xl font-bold text-gray-900">All Transactions</h1>
-              <p className="text-gray-600">Manage and review your financial transactions</p>
+              <h1 className="text-2xl font-bold text-gray-900">ธุรกรรมทั้งหมด</h1>
+              <p className="text-gray-600">จัดการและตรวจสอบธุรกรรมทางการเงินของคุณ</p>
             </div>
             <TransactionList
               transactions={transactions}

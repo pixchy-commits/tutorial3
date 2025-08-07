@@ -2,8 +2,6 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase'
-import { Auth } from '@supabase/auth-ui-react'
-import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react'
 
 interface AuthFormProps {
@@ -49,8 +47,9 @@ export default function AuthForm({ redirectTo }: AuthFormProps) {
         
         if (error) throw error
       }
-    } catch (error: any) {
-      alert(error.message)
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      alert(errorMessage)
     } finally {
       setLoading(false)
     }
@@ -65,8 +64,9 @@ export default function AuthForm({ redirectTo }: AuthFormProps) {
         }
       })
       if (error) throw error
-    } catch (error: any) {
-      alert(error.message)
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      alert(errorMessage)
     }
   }
 

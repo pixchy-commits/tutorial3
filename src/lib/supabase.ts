@@ -154,7 +154,7 @@ export type Database = {
           avatar_url: string | null
           currency: string | null
           timezone: string | null
-          preferences: any | null
+          preferences: Record<string, unknown> | null
           created_at: string
           updated_at: string
         }

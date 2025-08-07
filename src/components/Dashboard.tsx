@@ -45,12 +45,16 @@ export default function Dashboard({ transactions, categories }: DashboardProps) 
     color: categories.find(cat => cat.name === item.name)?.color || COLORS[index % COLORS.length]
   }));
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: {
+    active?: boolean;
+    payload?: Array<{ dataKey: string; value: number; color: string }>;
+    label?: string;
+  }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 border rounded-lg shadow-lg">
           <p className="font-medium">{label}</p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry, index: number) => (
             <p key={index} style={{ color: entry.color }}>
               {entry.dataKey}: {formatCurrency(entry.value)}
             </p>
@@ -70,7 +74,7 @@ export default function Dashboard({ transactions, categories }: DashboardProps) 
   }: { 
     title: string; 
     value: string; 
-    icon: any; 
+    icon: React.ComponentType<{ size: number; className?: string }>; 
     trend?: { direction: 'up' | 'down'; percentage: number }; 
     color?: string;
   }) => (
@@ -268,7 +272,7 @@ export default function Dashboard({ transactions, categories }: DashboardProps) 
           <div className="bg-white p-6 rounded-lg shadow-sm border">
             <h3 className="text-lg font-semibold mb-4 text-red-600">หมวดหมู่รายจ่ายอันดับต้น</h3>
             <div className="space-y-3">
-              {analytics.topExpenseCategories.slice(0, 5).map((category, index) => {
+              {analytics.topExpenseCategories.slice(0, 5).map((category) => {
                 const categoryInfo = categories.find(cat => cat.name === category.name);
                 const percentage = (category.value / analytics.totalExpenses) * 100;
                 // Translate category name if possible
@@ -299,7 +303,7 @@ export default function Dashboard({ transactions, categories }: DashboardProps) 
           <div className="bg-white p-6 rounded-lg shadow-sm border">
             <h3 className="text-lg font-semibold mb-4 text-green-600">หมวดหมู่รายรับอันดับต้น</h3>
             <div className="space-y-3">
-              {analytics.topRevenueCategories.slice(0, 5).map((category, index) => {
+              {analytics.topRevenueCategories.slice(0, 5).map((category) => {
                 const categoryInfo = categories.find(cat => cat.name === category.name);
                 const percentage = (category.value / analytics.totalRevenue) * 100;
                 // Translate category name if possible
